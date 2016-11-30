@@ -3,7 +3,6 @@ module.exports = {
   root: true,
   extends: [
     'airbnb-base',
-    'plugin:flowtype/recommended',
   ],
   env: {
     browser: true,
@@ -14,7 +13,6 @@ module.exports = {
     it: true,
   },
   plugins: [
-    'flowtype',
     'import',
   ],
   settings: {
@@ -27,12 +25,13 @@ module.exports = {
   rules: {
     'arrow-body-style': 'off',
     'arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
-    'max-len': ['error', 120],
     'import/extensions': ['error', 'always',
       {
         js: 'never',
       }
     ],
     'linebreak-style': 'off',
+    'max-len': ['error', 120],
+    'no-underscore-dangle': 'off',
   },
 };

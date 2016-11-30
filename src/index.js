@@ -1,5 +1,5 @@
-import add from './add';
+import StringScalar from './string';
 
 export default {
-  add,
+  string: new StringScalar(),
 };

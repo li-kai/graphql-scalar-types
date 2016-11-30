@@ -20,10 +20,10 @@ const config = {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
-          cacheDirectory: true
+          cacheDirectory: true,
         },
       },
-    ]
+    ],
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -42,11 +42,11 @@ if (env === 'production') {
         drop_console: true,
       },
       mangle: {
-        screw_ie8 : true,
+        screw_ie8: true,
         keep_fnames: true,
       },
-    })
-  );
+    },
+  ));
 }
 
 module.exports = config;
