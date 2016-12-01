@@ -33,5 +33,6 @@ module.exports = {
     'linebreak-style': 'off',
     'max-len': ['error', 120],
     'no-underscore-dangle': 'off',
+    'no-duplicate-imports': 'off',
   },
 };

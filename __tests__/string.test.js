@@ -3,23 +3,26 @@ import StringScalar from '../src/string';
 
 const testScalar = new StringScalar('test');
 
-describe('min, max and length', () => {
+describe('min, max, length and truncate', () => {
   it('throws when limit is not a number', () => {
     expect(() => testScalar.min('a')).toThrowError(TypeError);
     expect(() => testScalar.max('a')).toThrowError(TypeError);
     expect(() => testScalar.length('a')).toThrowError(TypeError);
+    expect(() => testScalar.truncate('a')).toThrowError(TypeError);
   });
 
   it('throws when limit is not an integer', () => {
     expect(() => testScalar.min(1.2)).toThrowError(TypeError);
     expect(() => testScalar.max(1.2)).toThrowError(TypeError);
     expect(() => testScalar.length(1.2)).toThrowError(TypeError);
+    expect(() => testScalar.truncate(1.2)).toThrowError(TypeError);
   });
 
   it('throws when limit is not a positive integer', () => {
     expect(() => testScalar.min(-1)).toThrowError(RangeError);
     expect(() => testScalar.max(-1)).toThrowError(RangeError);
     expect(() => testScalar.length(-1)).toThrowError(RangeError);
+    expect(() => testScalar.truncate(-1)).toThrowError(RangeError);
   });
 
   it('does not throw for positive integer', () => {
@@ -29,6 +32,8 @@ describe('min, max and length', () => {
     expect(() => testScalar.max(1)).not.toThrow();
     expect(() => testScalar.length(0)).not.toThrow();
     expect(() => testScalar.length(1)).not.toThrow();
+    expect(() => testScalar.truncate(0)).not.toThrow();
+    expect(() => testScalar.truncate(1)).not.toThrow();
   });
 });
 

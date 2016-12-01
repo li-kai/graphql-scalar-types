@@ -3,6 +3,8 @@ import {
   GraphQLScalarType,
   GraphQLNonNull,
   assertValidName,
+} from 'graphql';
+import type {
   ValueNode,
 } from 'graphql';
 
