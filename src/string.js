@@ -1,6 +1,7 @@
 /* flow */
 import { Kind } from 'graphql';
 import Base from './base';
+import compose from './utils';
 
 function checkLimit(limit: number): void {
   if (!Number.isInteger(limit)) {
@@ -28,11 +29,6 @@ class StringScalar extends Base<String, String> {
   _min: number;
   _max: number;
   _len: number;
-
-  constructor(name: string) {
-    super(name);
-    this._func = [String];
-  }
 
   /**
    * Specifies the minimum number of string characters allowed.
@@ -84,6 +80,17 @@ class StringScalar extends Base<String, String> {
   }
 
   /**
+   * Specifies the length of the string to be truncated to if it exceeds.
+   */
+  truncate(limit: number) {
+    checkLimit(limit);
+
+    const obj = this.clone();
+    obj._func.push(value => value.substring(0, limit));
+    return obj;
+  }
+
+  /**
    * Requires the string value to only contain a-z, A-Z, and 0-9.
    */
   alphanum() {
@@ -92,15 +99,39 @@ class StringScalar extends Base<String, String> {
       if (/^[a-zA-Z0-9]+$/.test(value)) {
         return value;
       }
-      throw new TypeError('String must only contain alpha-numeric characters,');
+      throw new TypeError('String must only contain alpha-numeric characters');
+    });
+    return obj;
+  }
+
+  /**
+   * Requires the string value to to be a credit card number.
+   */
+  creditCard() {
+    const obj = this.clone();
+    obj._func.push((value) => {
+      let i = value.length;
+      let sum = 0;
+      let mul = 1;
+
+      /* eslint-disable */
+      while (i--) {
+        const char = value.charAt(i) * mul;
+        sum += (char - (char > 9) * 9);
+        mul ^= 3;
+      }
+      /* eslint-enable */
+
+      if ((sum % 10 === 0) && (sum > 0)) {
+        return value;
+      }
+      throw new TypeError('String must be a credit card number');
     });
     return obj;
   }
 
   create() {
-    const coerce = (value: mixed): String => {
-      return this._func.reduce((acc, fn) => fn(acc), value);
-    };
+    const coerce: (value: mixed) => String = compose([String, ...this._func]);
     this.serialize = coerce;
     this.parseValue = coerce;
     this.parseLiteral = (ast) => {

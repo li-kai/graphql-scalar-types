@@ -41,13 +41,13 @@ describe('min', () => {
     expect(() => testScalar.length(0).min(1)).toThrowError(RangeError);
   });
 
+  const GraphQLExactString = testScalar.min(1).create();
+
   it('passes when min length is met', () => {
-    const GraphQLExactString = testScalar.min(1).create();
     expect(validate('1', GraphQLExactString)).toEqual([]);
   });
 
   it('throws when min length is not met', () => {
-    const GraphQLExactString = testScalar.min(1).create();
     expect(validate('', GraphQLExactString)).not.toEqual([]);
   });
 });
@@ -65,13 +65,13 @@ describe('max', () => {
     expect(() => testScalar.length(0).max(1)).toThrowError(RangeError);
   });
 
+  const GraphQLExactString = testScalar.max(1).create();
+
   it('passes when max length is met', () => {
-    const GraphQLExactString = testScalar.max(1).create();
     expect(validate('1', GraphQLExactString)).toEqual([]);
   });
 
   it('throws when max length is not met', () => {
-    const GraphQLExactString = testScalar.max(1).create();
     expect(validate('12', GraphQLExactString)).not.toEqual([]);
   });
 });
@@ -82,17 +82,80 @@ describe('length', () => {
     expect(() => testScalar.max(1).length(2)).toThrowError(RangeError);
   });
 
+  const GraphQLExactString = testScalar.length(1).create();
+
   it('passes when exact length is met', () => {
-    const GraphQLExactString = testScalar.length(1).create();
     expect(validate('1', GraphQLExactString)).toEqual([]);
   });
 
   it('throws when exact length is not met', () => {
-    const GraphQLExactString = testScalar.length(1).create();
     expect(validate('12', GraphQLExactString)).not.toEqual([]);
   });
 });
 
+describe('truncate', () => {
+  const GraphQLExactString = testScalar.truncate(1).create();
+
+  it('truncates when length exceeds limit', () => {
+    expect(GraphQLExactString.serialize('12')).toEqual('1');
+  });
+
+  it('does not truncates when length exceeds limit', () => {
+    expect(GraphQLExactString.serialize('')).toEqual('');
+  });
+});
+
+describe('alphanum', () => {
+  const GraphQLAlphanumeric = testScalar.alphanum().create();
+
+  it('passes when string is alphanumeric', () => {
+    expect(validate('aA0', GraphQLAlphanumeric)).toEqual([]);
+  });
+
+  it('throws when string is not alphanumeric', () => {
+    expect(validate('', GraphQLAlphanumeric)).not.toEqual([]);
+  });
+});
+
+describe('creditCard', () => {
+  const GraphQLCreditCard = testScalar.creditCard().create();
+
+  function validateAll(...values) {
+    values.forEach((creditCard) => {
+      expect(validate(creditCard, GraphQLCreditCard)).toEqual([]);
+    });
+  }
+
+  it('passes when string is a credit card', () => {
+    validateAll(
+      '378734493671000',  // american express
+      '371449635398431',  // american express
+      '378282246310005',  // american express
+      '341111111111111',  // american express
+      '5610591081018250', // australian bank
+      '5019717010103742', // dankort pbs
+      '38520000023237',   // diners club
+      '30569309025904',   // diners club
+      '6011000990139424', // discover
+      '6011111111111117', // discover
+      '6011601160116611', // discover
+      '3566002020360505', // jbc
+      '3530111333300000', // jbc
+      '5105105105105100', // mastercard
+      '5555555555554444', // mastercard
+      '5431111111111111', // mastercard
+      '6331101999990016', // switch/solo paymentech
+      '4222222222222',    // visa
+      '4012888888881881', // visa
+      '4111111111111111', // visa
+    );
+  });
+
+  it('throws when string is not a credit card', () => {
+    expect(validate('', GraphQLCreditCard)).not.toEqual([]);
+    expect(validate('4111111111111112', GraphQLCreditCard)).not.toEqual([]);
+  });
+});
 
 describe('StringScalar', () => {
   const BasicString = testScalar.create();
