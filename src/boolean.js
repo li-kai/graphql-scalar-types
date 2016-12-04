@@ -4,10 +4,10 @@ import Base from './base';
 import { compose, flatten } from './utils';
 
 /**
- * Boolean scalar type that takes in string data.
+ * Boolean scalar type that represents boolean data.
  * By itself, it is essentially the `GraphQLBoolean` type.
  */
-class BooleanScalar extends Base<String, Boolean> {
+class BooleanScalar extends Base<Boolean, Boolean> {
 
   /**
    * Converts additional values to `true` during serialization.
@@ -44,7 +44,7 @@ class BooleanScalar extends Base<String, Boolean> {
     this.serialize = coerce;
     this.parseValue = coerce;
     this.parseLiteral = (ast) => {
-      return ast.kind === Kind.BOOLEAN ? coerce(ast.value) : null;
+      return ast.kind === Kind.BOOLEAN ? ast.value : null;
     };
     return super.create();
   }

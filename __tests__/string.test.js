@@ -3,6 +3,18 @@ import StringScalar from '../src/string';
 
 const testScalar = new StringScalar('test');
 
+describe('StringScalar', () => {
+  const BasicString = testScalar.create();
+
+  it('parseValue output strings', () => {
+    expect(BasicString.parseValue('string')).toBe('string');
+    expect(BasicString.parseValue(1)).toBe('1');
+    expect(BasicString.parseValue(-1.1)).toBe('-1.1');
+    expect(BasicString.parseValue(true)).toBe('true');
+    expect(BasicString.parseValue(false)).toBe('false');
+  });
+});
+
 describe('min, max, length and truncate', () => {
   it('throws when limit is not a number', () => {
     expect(() => testScalar.min('a')).toThrowError(TypeError);
@@ -34,6 +46,14 @@ describe('min, max, length and truncate', () => {
     expect(() => testScalar.length(1)).not.toThrow();
     expect(() => testScalar.truncate(0)).not.toThrow();
     expect(() => testScalar.truncate(1)).not.toThrow();
+  });
+
+  it('works together', () => {
+    const GraphQLMinMaxString = testScalar.min(1).max(2).truncate(1).create();
+    expect(GraphQLMinMaxString.parseValue('1')).toEqual('1');
+    expect(GraphQLMinMaxString.parseValue('12')).toEqual('1');
+    expect(() => GraphQLMinMaxString.parseValue('')).toThrow(TypeError);
+    expect(() => GraphQLMinMaxString.parseValue('123')).toThrow(TypeError);
   });
 });
 
@@ -102,11 +122,11 @@ describe('truncate', () => {
   const GraphQLExactString = testScalar.truncate(1).create();
 
   it('truncates when length exceeds limit', () => {
-    expect(GraphQLExactString.serialize('12')).toEqual('1');
+    expect(GraphQLExactString.parseValue('12')).toEqual('1');
   });
 
   it('does not truncates when length exceeds limit', () => {
-    expect(GraphQLExactString.serialize('')).toEqual('');
+    expect(GraphQLExactString.parseValue('')).toEqual('');
   });
 });
 
@@ -159,25 +179,5 @@ describe('creditCard', () => {
   it('throws when string is not a credit card', () => {
     expect(validate('', GraphQLCreditCard)).not.toEqual([]);
     expect(validate('4111111111111112', GraphQLCreditCard)).not.toEqual([]);
-  });
-});
-
-describe('StringScalar', () => {
-  const BasicString = testScalar.create();
-
-  it('serializes output strings', () => {
-    expect(BasicString.serialize('string')).toBe('string');
-    expect(BasicString.serialize(1)).toBe('1');
-    expect(BasicString.serialize(-1.1)).toBe('-1.1');
-    expect(BasicString.serialize(true)).toBe('true');
-    expect(BasicString.serialize(false)).toBe('false');
-  });
-
-  it('passes with max and min', () => {
-    const GraphQLMinMaxString = testScalar.min(1).max(2).create();
-    expect(validate('1', GraphQLMinMaxString)).toEqual([]);
-    expect(validate('12', GraphQLMinMaxString)).toEqual([]);
-    expect(validate('', GraphQLMinMaxString)).not.toEqual([]);
-    expect(validate('123', GraphQLMinMaxString)).not.toEqual([]);
   });
 });

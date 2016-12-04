@@ -1,7 +1,7 @@
 /* flow */
 import { Kind } from 'graphql';
 import Base from './base';
-import compose from './utils';
+import { compose } from './utils';
 
 function checkLimit(limit: number): void {
   if (!Number.isInteger(limit)) {
@@ -16,12 +16,12 @@ function checkLength(limit: number, comparator: string, isValidLength: (length: 
     if (isValidLength(value.length)) {
       return value;
     }
-    throw new TypeError(`String's length must be ${comparator} ${limit}, got ${value.length}.`);
+    throw new TypeError(`String's length must be ${comparator} ${limit}, got ${value.length}`);
   };
 }
 
 /**
- * String scalar type that takes in string data.
+ * String scalar type that represents string data.
  * By itself, it is essentially the `GraphQLString` type.
  */
 class StringScalar extends Base<String, String> {
@@ -131,11 +131,14 @@ class StringScalar extends Base<String, String> {
   }
 
   create() {
-    const coerce: (value: mixed) => String = compose([String, ...this._func]);
+    const validate: (value: String) => String = compose(this._func);
+    function coerce(value: mixed): String {
+      return validate(String(value));
+    }
     this.serialize = coerce;
     this.parseValue = coerce;
     this.parseLiteral = (ast) => {
-      return ast.kind === Kind.STRING ? coerce(ast.value) : null;
+      return ast.kind === Kind.STRING ? validate(ast.value) : null;
     };
     return super.create();
   }
