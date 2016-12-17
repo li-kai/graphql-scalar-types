@@ -157,6 +157,26 @@ describe('lesser', () => {
   });
 });
 
+describe('precision', () => {
+  const GraphQLMoney = testScalar.precision(2).create();
+
+  it('passes when value is precision of limit', () => {
+    expect(validate(0.00, GraphQLMoney)).toEqual([]);
+  });
+
+  it('throws when value exceeds precision of limit', () => {
+    expect(validate(0.001, GraphQLMoney)).not.toEqual([]);
+  });
+
+  it('throws when limit is not positive', () => {
+    expect(() => testScalar.precision(-2)).toThrow();
+  });
+
+  it('throws when limit is not an integer', () => {
+    expect(() => testScalar.precision(0.1)).toThrow();
+  });
+});
+
 describe('multiple', () => {
   const GraphQLEven = testScalar.multiple(2).create();
 
