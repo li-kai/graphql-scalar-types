@@ -181,3 +181,37 @@ describe('creditCard', () => {
     expect(validate('4111111111111112', GraphQLCreditCard)).not.toEqual([]);
   });
 });
+
+describe('regex', () => {
+  const GraphQLUpperCase = testScalar.regex(/[A-Z]+/).create();
+
+  it('passes when string is all uppercase', () => {
+    expect(validate('AZ', GraphQLUpperCase)).toEqual([]);
+  });
+
+  it('throws when string is not uppercase', () => {
+    expect(validate('az', GraphQLUpperCase)).not.toEqual([]);
+  });
+
+  const GraphQLNotUpperCase = testScalar.regex(/[A-Z]+/, { invert: true }).create();
+
+  it('passes when string is not uppercase', () => {
+    expect(validate('az', GraphQLNotUpperCase)).toEqual([]);
+  });
+
+  it('throws when string is uppercase', () => {
+    expect(validate('AZ', GraphQLNotUpperCase)).not.toEqual([]);
+  });
+});
+
+describe('replace', () => {
+  const GraphQLFoo = testScalar.replace(/bar/, 'foo').create();
+
+  it('converts text when regex matches', () => {
+    expect(GraphQLFoo.parseValue('bar')).toBe('foo');
+  });
+
+  it('converts text when regex does not match', () => {
+    expect(GraphQLFoo.parseValue('test')).toBe('test');
+  });
+});

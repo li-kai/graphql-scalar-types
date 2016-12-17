@@ -105,7 +105,7 @@ class StringScalar extends Base<String, String> {
   }
 
   /**
-   * Requires the string value to to be a credit card number.
+   * Requires the string value to be a credit card number.
    */
   creditCard() {
     const obj = this.clone();
@@ -126,6 +126,39 @@ class StringScalar extends Base<String, String> {
         return value;
       }
       throw new TypeError('String must be a credit card number');
+    });
+    return obj;
+  }
+
+  /**
+   * Requires the string value to match the regex test.
+   * @param {RegExp} pattern
+   * @param {boolean} [options= { name: '', invert: false }] `name` for regexp pattern and `invert` to disallow pattern instead.
+   */
+  regex(pattern: RegExp, options: { name: string; invert: boolean } = { name: '', invert: false }) {
+    const isRegExp: boolean = pattern instanceof RegExp;
+    if (!isRegExp) {
+      throw new TypeError('pattern must be a regex object');
+    }
+
+    const condition: string = options.invert ? 'must not' : 'must';
+    const obj = this.clone();
+    obj._func.push((value) => {
+      if (pattern.test(value) !== options.invert) {
+        return value;
+      }
+      throw new TypeError(`String ${condition} match regexp ${options.name}`);
+    });
+    return obj;
+  }
+
+  /**
+   * Replaces the regex matches of the string with the `replacement`. Equivalent to `String.prototype.replace`.
+   */
+  replace(pattern: RegExp | string, replacement: string) {
+    const obj = this.clone();
+    obj._func.push((value) => {
+      return value.replace(pattern, replacement);
     });
     return obj;
   }

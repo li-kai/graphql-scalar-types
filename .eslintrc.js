@@ -31,7 +31,7 @@ module.exports = {
       }
     ],
     'linebreak-style': 'off',
-    'max-len': ['error', 120],
+    'max-len': ['error', 120, { "ignoreComments": true }],
     'no-underscore-dangle': 'off',
     'no-duplicate-imports': 'off',
   },
