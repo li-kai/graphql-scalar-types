@@ -156,3 +156,59 @@ describe('lesser', () => {
     expect(validate(1, GraphQLPositiveNum)).not.toEqual([]);
   });
 });
+
+describe('precision', () => {
+  const GraphQLMoney = testScalar.precision(2).create();
+
+  it('passes when value is precision of limit', () => {
+    expect(validate(0.00, GraphQLMoney)).toEqual([]);
+  });
+
+  it('throws when value exceeds precision of limit', () => {
+    expect(validate(0.001, GraphQLMoney)).not.toEqual([]);
+  });
+
+  it('throws when limit is not positive', () => {
+    expect(() => testScalar.precision(-2)).toThrow();
+  });
+
+  it('throws when limit is not an integer', () => {
+    expect(() => testScalar.precision(0.1)).toThrow();
+  });
+});
+
+describe('multiple', () => {
+  const GraphQLEven = testScalar.multiple(2).create();
+
+  it('passes when value is multiple of base', () => {
+    expect(validate(2, GraphQLEven)).toEqual([]);
+  });
+
+  it('throws when lesser value is not met', () => {
+    expect(validate(1, GraphQLEven)).not.toEqual([]);
+  });
+});
+
+describe('positive', () => {
+  const GraphQLPositiveNum = testScalar.positive().create();
+
+  it('passes when value is positive', () => {
+    expect(validate(1, GraphQLPositiveNum)).toEqual([]);
+  });
+
+  it('throws when value is negative', () => {
+    expect(validate(-1, GraphQLPositiveNum)).not.toEqual([]);
+  });
+});
+
+describe('negative', () => {
+  const GraphQLNegativeNum = testScalar.negative().create();
+
+  it('passes when value is negative', () => {
+    expect(validate(-1, GraphQLNegativeNum)).toEqual([]);
+  });
+
+  it('throws when value is positive', () => {
+    expect(validate(1, GraphQLNegativeNum)).not.toEqual([]);
+  });
+});

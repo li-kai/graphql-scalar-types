@@ -105,7 +105,7 @@ class StringScalar extends Base<String, String> {
   }
 
   /**
-   * Requires the string value to to be a credit card number.
+   * Requires the string value to be a credit card number.
    */
   creditCard() {
     const obj = this.clone();
@@ -128,6 +128,91 @@ class StringScalar extends Base<String, String> {
       throw new TypeError('String must be a credit card number');
     });
     return obj;
+  }
+
+  /**
+   * Requires the string value to match the regex test.
+   * @param {RegExp} pattern
+   * @param {boolean} [options= { name: '', invert: false }] `name` for regexp pattern and `invert` to disallow pattern instead.
+   */
+  regex(pattern: RegExp, options: { name: string; invert: boolean } = {}) {
+    const isRegExp: boolean = pattern instanceof RegExp;
+    if (!isRegExp) {
+      throw new TypeError('pattern must be a regex object');
+    }
+
+    const isValidFlag: boolean = !options.invert || false;
+    const name: string = options.name || '';
+
+    const conditionText: string = isValidFlag ? 'must' : 'must not';
+    const obj = this.clone();
+    obj._func.push((value) => {
+      if (pattern.test(value) === isValidFlag) {
+        return value;
+      }
+      throw new TypeError(`String ${conditionText} match regexp ${name}`);
+    });
+    return obj;
+  }
+
+  /**
+   * Replaces the regex matches of the string with the `replacement`. Equivalent to `String.prototype.replace`.
+   */
+  replace(pattern: RegExp | string, replacement: string) {
+    const obj = this.clone();
+    obj._func.push((value) => {
+      return value.replace(pattern, replacement);
+    });
+    return obj;
+  }
+
+  /**
+   * Trims the string.
+   */
+  trim() {
+    const obj = this.clone();
+    obj._func.push((value) => {
+      return value.trim();
+    });
+    return obj;
+  }
+
+  /**
+   *
+   */
+  uppercase() {
+    const obj = this.clone();
+    obj._func.push((value) => {
+      return value.toLocaleUpperCase();
+    });
+    return obj;
+  }
+
+  /**
+   *
+   */
+  lowercase() {
+    const obj = this.clone();
+    obj._func.push((value) => {
+      return value.toLocaleLowerCase();
+    });
+    return obj;
+  }
+
+  /**
+   * Requires the string to be a valid base64 string.
+   */
+  base64() {
+    const base64Regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+    return this.regex(base64Regex, { name: 'base64' });
+  }
+
+  /**
+   * Requires the string to be a valid hexadecimal string.
+   */
+  hex() {
+    const regex = /^[a-f0-9]+$/i;
+    return this.regex(regex, { name: 'hexadecimal' });
   }
 
   create() {

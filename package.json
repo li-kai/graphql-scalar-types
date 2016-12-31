@@ -55,7 +55,7 @@
     "eslint-config-airbnb-base": "latest",
     "eslint-plugin-import": "^2.1.0",
     "flow-bin": "^0.37.0",
-    "jest": "^17.0.3",
+    "jest": "^18.1.0",
     "rimraf": "^2.5.4",
     "webpack": "^1.13.2"
   },

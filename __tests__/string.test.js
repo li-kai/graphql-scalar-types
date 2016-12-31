@@ -181,3 +181,99 @@ describe('creditCard', () => {
     expect(validate('4111111111111112', GraphQLCreditCard)).not.toEqual([]);
   });
 });
+
+describe('regex', () => {
+  const GraphQLUpperCase = testScalar.regex(/[A-Z]+/).create();
+
+  it('passes when string is all uppercase', () => {
+    expect(validate('AZ', GraphQLUpperCase)).toEqual([]);
+  });
+
+  it('throws when string is not uppercase', () => {
+    expect(validate('az', GraphQLUpperCase)).not.toEqual([]);
+  });
+
+  const GraphQLNotUpperCase = testScalar.regex(/[A-Z]+/, { invert: true }).create();
+
+  it('passes when string is not uppercase', () => {
+    expect(validate('az', GraphQLNotUpperCase)).toEqual([]);
+  });
+
+  it('throws when string is uppercase', () => {
+    expect(validate('AZ', GraphQLNotUpperCase)).not.toEqual([]);
+  });
+});
+
+describe('replace', () => {
+  const GraphQLFoo = testScalar.replace(/bar/, 'foo').create();
+
+  it('converts text when regex matches', () => {
+    expect(GraphQLFoo.parseValue('bar')).toBe('foo');
+  });
+
+  it('converts text when regex does not match', () => {
+    expect(GraphQLFoo.parseValue('test')).toBe('test');
+  });
+});
+
+describe('trim', () => {
+  const GraphQLFoo = testScalar.trim().create();
+
+  it('trims text', () => {
+    expect(GraphQLFoo.parseValue(' bar ')).toBe('bar');
+  });
+
+  it('does not remove whitespace', () => {
+    expect(GraphQLFoo.parseValue('te st')).toBe('te st');
+  });
+});
+
+describe('uppercase', () => {
+  const GraphQLUpperCase = testScalar.uppercase().create();
+
+  it('uppercases text', () => {
+    expect(GraphQLUpperCase.parseValue('bar')).toBe('BAR');
+    expect(GraphQLUpperCase.parseValue('123')).toBe('123');
+  });
+});
+
+describe('lowercase', () => {
+  const GraphQLLowerCase = testScalar.lowercase().create();
+
+  it('lowercases text', () => {
+    expect(GraphQLLowerCase.parseValue('BAR')).toBe('bar');
+    expect(GraphQLLowerCase.parseValue('123')).toBe('123');
+  });
+});
+
+describe('base64', () => {
+  const GraphQLBase64 = testScalar.base64().create();
+
+  it('passes when string is a base64 string', () => {
+    expect(validate('YW5=', GraphQLBase64)).toEqual([]);
+    expect(validate('YW==', GraphQLBase64)).toEqual([]);
+    expect(validate('YW55IGNhcm5hbCBwbGVhc3VyZS4=', GraphQLBase64)).toEqual([]);
+  });
+
+  it('throws when string is not a base64 string', () => {
+    expect(validate('=YW55IGNhcm5hbCBwbGVhc3VyZS4', GraphQLBase64)).not.toEqual([]);
+    expect(validate('Y=', GraphQLBase64)).not.toEqual([]);
+    expect(validate('Y===', GraphQLBase64)).not.toEqual([]);
+    expect(validate('YW', GraphQLBase64)).not.toEqual([]);
+    expect(validate('YW5', GraphQLBase64)).not.toEqual([]);
+    expect(validate('$#%#$^$^)(*&^%', GraphQLBase64)).not.toEqual([]);
+  });
+});
+
+describe('hex', () => {
+  const GraphQLHex = testScalar.hex().create();
+
+  it('passes when string is a hex string', () => {
+    expect(validate('123456789abcdef', GraphQLHex)).toEqual([]);
+    expect(validate('123456789AbCdEf', GraphQLHex)).toEqual([]);
+  });
+
+  it('throws when string is not a hex string', () => {
+    expect(validate('123afg', GraphQLHex)).not.toEqual([]);
+  });
+});
