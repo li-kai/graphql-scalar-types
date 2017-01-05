@@ -4,6 +4,10 @@ GraphQL scalar types for validation of GraphQL objects.
 
 The flexibility of GraphQL means validation for your schemas is possible. GraphQL Scalar Types allows you to build types easily using a fluent interface, similar to libraries like Joi.
 
+```bash
+npm i graphql-scalar-types
+```
+
 ## Example
 
 ```js
