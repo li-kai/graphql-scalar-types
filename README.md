@@ -1,4 +1,4 @@
-# GraphQL Scalar Types
+# GraphQL Scalar Types [![Build Status](https://travis-ci.org/li-kai/graphql-scalar-types.svg?branch=master)](https://travis-ci.org/li-kai/graphql-scalar-types) [![Coverage Status](https://coveralls.io/repos/github/li-kai/graphql-scalar-types/badge.svg?branch=master)](https://coveralls.io/github/li-kai/graphql-scalar-types?branch=master)
 
 GraphQL scalar types for validation of GraphQL objects.
 
