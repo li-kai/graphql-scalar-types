@@ -1,6 +1,6 @@
 {
   "name": "graphql-scalar-types",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "The easy way to build graphql types",
   "main": "lib/index.js",
   "module": "es/index.js",
