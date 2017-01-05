@@ -1,5 +1,3 @@
-'use strict';
-
 const webpack = require('webpack');
 
 const env = process.env.NODE_ENV;
@@ -45,8 +43,7 @@ if (env === 'production') {
         screw_ie8: true,
         keep_fnames: true,
       },
-    },
-  ));
+    }));
 }
 
 module.exports = config;

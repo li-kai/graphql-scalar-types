@@ -12,8 +12,6 @@ class BooleanScalar extends Base<Boolean, Boolean> {
   /**
    * Converts additional values to `true` during serialization.
    * Accepts a value or an array of values.
-   * @example const GraphQLSpecialBool = GraphQLScalars.truthy(0, '').create();
-   * @example const GraphQLSpecialBool = GraphQLScalars.truthy([0, '']).create();
    */
   truthy(...params: mixed) {
     const values = flatten(params);
@@ -27,8 +25,6 @@ class BooleanScalar extends Base<Boolean, Boolean> {
   /**
    * Converts additional values to `false` during serialization.
    * Accepts a value or an array of values.
-   * @example const GraphQLSpecialBool = GraphQLScalars.falsy(1, 2).create();
-   * @example const GraphQLSpecialBool = GraphQLScalars.falsy([1, 2]).create();
    */
   falsy(...params: mixed) {
     const values = flatten(params);

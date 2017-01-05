@@ -24,7 +24,9 @@ class Base<TInternal, TExternal> {
 
   /**
    * Constructs a builder with a name for the GraphQLScalar.
-   * @example const GraphQLString = GraphQLScalars.string('String');
+   * @example const GraphQLStringBuilder = GraphQLScalarTypes.string('Name');
+   * @example const GraphQLNumberBuilder = GraphQLScalarTypes.number('Age');
+   * @example const GraphQLBooleanBuilder = GraphQLScalarTypes.boolean('SpecialFalsy');
    */
   constructor(name: string) {
     if (!name) {

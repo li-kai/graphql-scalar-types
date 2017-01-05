@@ -1,5 +1,5 @@
 {
-  "name": "graphql-scalar",
+  "name": "graphql-scalar-types",
   "version": "0.0.1",
   "description": "The easy way to build graphql types",
   "main": "lib/index.js",
@@ -14,6 +14,7 @@
   "scripts": {
     "clean": "rimraf lib dist es coverage",
     "check": "yarn run lint && yarn run flow && yarn run test",
+    "docs": "documentation readme src -s \"API\"",
     "lint": "eslint src __tests__",
     "flow": "flow check --color always",
     "flow:cover": "for file in src/*.js; do echo $file; flow coverage $file --color; done",
@@ -22,6 +23,7 @@
     "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/yarn-starter.js",
     "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack src/index.js dist/yarn-starter.min.js",
     "build": "yarn run build:commonjs && yarn run build:es && yarn run build:umd && yarn run build:umd:min",
+    "prepublish": "yarn run test && yarn run build",
     "test": "cross-env BABEL_ENV=commonjs jest --config .jestconfig",
     "test:cov": "yarn test -- --coverage",
     "test:watch": "yarn test -- --watch"
@@ -32,14 +34,18 @@
   },
   "keywords": [
     "graphql",
-    "scalar"
+    "scalar",
+    "types",
+    "input",
+    "joi",
+    "validation"
   ],
-  "author": "NUSModifications",
+  "author": "li-kai",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/li-kai/graphql-scalar/issues"
+    "url": "https://github.com/li-kai/graphql-scalar-types/issues"
   },
-  "homepage": "https://github.com/li-kai/graphql-scalar",
+  "homepage": "https://github.com/li-kai/graphql-scalar-types",
   "npmName": "graphql-scalar",
   "devDependencies": {
     "babel-cli": "^6.16.0",
@@ -51,6 +57,7 @@
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
     "babel-preset-es2015": "^6.16.0",
     "cross-env": "^3.1.3",
+    "documentation": "^4.0.0-beta.18",
     "eslint": "^3.9.1",
     "eslint-config-airbnb-base": "latest",
     "eslint-plugin-import": "^2.1.0",
@@ -60,7 +67,6 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "graphql": "^0.8.2",
-    "joi": "^10.0.1"
+    "graphql": "^0.8.2"
   }
 }
