@@ -69,6 +69,6 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
-    "graphql": "^0.8.2"
+    "graphql": "^0.9.1"
   }
 }
