@@ -24,7 +24,7 @@
     "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack src/index.js dist/yarn-starter.min.js",
     "build": "yarn run build:commonjs && yarn run build:es && yarn run build:umd && yarn run build:umd:min",
     "prepublish": "yarn run test && yarn run build",
-    "test": "cross-env BABEL_ENV=commonjs jest --config .jestconfig",
+    "test": "cross-env BABEL_ENV=commonjs jest --config jest.config.js",
     "test:cov": "yarn test -- --coverage",
     "test:coveralls": "yarn test:cov && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:watch": "yarn test -- --watch"
@@ -64,7 +64,7 @@
     "eslint-config-airbnb-base": "latest",
     "eslint-plugin-import": "^2.1.0",
     "flow-bin": "^0.45.0",
-    "jest": "^19.0.2",
+    "jest": "^20.0.1",
     "rimraf": "^2.5.4",
     "webpack": "^1.13.2"
   },
