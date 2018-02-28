@@ -40,7 +40,7 @@ class Base<TInternal, TExternal> {
   /**
    * Gives a description to the GraphQLScalar.
    */
-  description(description: string) {
+  describe(description: string) {
     if (typeof description !== 'string') {
       throw new TypeError('description must be a string');
     }
