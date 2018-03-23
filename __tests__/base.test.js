@@ -37,15 +37,15 @@ describe('constructor', () => {
   });
 });
 
-describe('description', () => {
+describe('describe', () => {
   it('takes in a string', () => {
-    const base = new Base(name).description(description);
+    const base = new Base(name).describe(description);
     expect(base.description).toEqual(description);
   });
 
   it('throws if description is invalid', () => {
     const base = new Base(name);
-    expect(() => base.description(5)).toThrow();
+    expect(() => base.describe(5)).toThrow();
   });
 });
 
@@ -65,9 +65,9 @@ describe('nonNull', () => {
 });
 
 describe('clone', () => {
-  const base = new Base(name).description(description);
+  const base = new Base(name).describe(description);
   const clonedBase = base.clone();
-  const fakeBase = new FakeBase(name).description(description);
+  const fakeBase = new FakeBase(name).describe(description);
   const fakeClonedBase = fakeBase.clone();
 
   it('is instance of Base class', () => {
@@ -94,7 +94,7 @@ describe('clone', () => {
 
 describe('create', () => {
   it('creates a GraphQLScalarType type', () => {
-    const scalar = new FakeBase(name).description(description).create();
+    const scalar = new FakeBase(name).describe(description).create();
     expect(scalar).toBeInstanceOf(GraphQLScalarType);
     expect(scalar.name).toEqual(name);
     expect(scalar.description).toEqual(description);
