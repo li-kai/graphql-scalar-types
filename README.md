@@ -41,7 +41,7 @@ const GraphQLNumberBuilder = GraphQLScalarTypes.number('Age');
 const GraphQLBooleanBuilder = GraphQLScalarTypes.boolean('SpecialFalsy');
 ```
 
-#### description
+#### describe
 
 Gives a description to the GraphQLScalar.
 
@@ -55,7 +55,7 @@ Makes the GraphQLScalar reject `null` as a value.
 
 **Parameters**
 
--   `isNonNull` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Default value is true. (optional, default `true`)
+-   `isNonNull` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Default value is true. (optional, default `true`)
 
 #### clone
 
@@ -222,7 +222,7 @@ Requires the string value to match the regex test.
 **Parameters**
 
 -   `pattern` **[RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)**
--   `options` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** `name` for regexp pattern and `invert` to disallow pattern instead. (optional, default `{name:'',invert:false}`)
+-   `options` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** `name` for regexp pattern and `invert` to disallow pattern instead. (optional, default `{name:'',invert:false}`)
 
 #### replace
 
