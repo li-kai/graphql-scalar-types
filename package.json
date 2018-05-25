@@ -65,7 +65,7 @@
     "flow-bin": "0.46.0",
     "jest": "22.4.3",
     "rimraf": "2.6.2",
-    "webpack": "1.15.0"
+    "webpack": "4.9.1"
   },
   "dependencies": {
     "graphql": "^0.9.1"
