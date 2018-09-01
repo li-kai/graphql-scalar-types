@@ -1,6 +1,6 @@
 {
   "name": "graphql-scalar-types",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "The easy way to build graphql types",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -63,11 +63,12 @@
     "eslint-config-airbnb-base": "latest",
     "eslint-plugin-import": "2.2.0",
     "flow-bin": "0.46.0",
+    "graphql": "^14.0.0",
     "jest": "22.4.3",
     "rimraf": "2.6.2",
     "webpack": "1.15.0"
   },
-  "dependencies": {
-    "graphql": "^0.9.1"
+  "peerDependencies": {
+    "graphql": "^14.0.0"
   }
 }

@@ -29,12 +29,6 @@ describe('graphql', () => {
   it('does not allow invalid names', () => {
     expect(() =>
       new GraphQLScalarType({
-        name: '',
-        serialize: () => null,
-      }),
-    ).toThrow();
-    expect(() =>
-      new GraphQLScalarType({
         name: null,
         desciption: { a: 'lol' },
         serialize: () => null,
