@@ -17,6 +17,57 @@ export const GraphQLName = GraphQLScalarTypes.string('Name').min(0).max(36).crea
 export const GraphQLAge = GraphQLScalarTypes.number('Age').min(0).max(120).create();
 ```
 
+### Using Apollo-Server
+
+Here is a minimal example using Apollo Server:
+
+```js
+const { ApolloServer, gql } = require('apollo-server');
+const { default: GraphQLScalarTypes } = require('graphql-scalar-types');
+
+const schemaString = gql`
+  # Make sure to define the scalars in the schema string
+  scalar Name
+  scalar Email
+
+  type Person {
+    name: Name
+    email: Email
+  }
+
+  type Query {
+    successfulPerson: Person
+    unsuccessfulPerson: Person
+  }
+`;
+
+const resolverFunctions = {
+  // Now define the resolvers using GraphQLScalarTypes
+  Name: GraphQLScalarTypes.string('Name').min(1).create(),
+  Email: GraphQLScalarTypes.string('Email').regex(/[\w\d]+@[\w\d]+\.\w+/, { name: 'Email Regex' }).create(),
+
+  Query: {
+    successfulPerson: () => ({
+      name: 'Foo Bar',
+      email: 'test@email.com'
+    }),
+    unsuccessfulPerson: () => ({
+      name: '',
+      email: 'invalid-email'
+    })
+  }
+};
+
+const server = new ApolloServer({
+  typeDefs: schemaString,
+  resolvers: resolverFunctions
+});
+
+server.listen().then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});
+```
+
 ## API
 
 #### constructor
