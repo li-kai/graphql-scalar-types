@@ -58,7 +58,7 @@
     "babel-preset-es2015": "6.24.1",
     "coveralls": "2.13.3",
     "cross-env": "3.2.4",
-    "documentation": "4.0.0-rc.1",
+    "documentation": "7.0.0",
     "eslint": "4.19.1",
     "eslint-config-airbnb-base": "latest",
     "eslint-plugin-import": "2.2.0",
